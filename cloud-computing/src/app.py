@@ -1,6 +1,7 @@
+import json
 import os
 import sys
-import json
+
 from pyfiglet import Figlet
 
 
@@ -57,6 +58,20 @@ def handle_input_files():
     return text
 
 
+def handle_app_provider_secrets():
+    """
+    This function demonstrates how to use application-provider secrets in an
+    iExec application.
+    The following environment variables are used:
+        - IEXEC_APP_PROVIDER_SECRET_0: first secret set by the application
+        provider
+    """
+    iexec_app_provider_secret_0 = os.getenv('IEXEC_APP_PROVIDER_SECRET_0', '')
+    if iexec_app_provider_secret_0 == '':
+        return ''
+    return f'\nApp provider secret 0: {iexec_app_provider_secret_0}'
+
+
 def save_result(text):
     """
     This function shows how to save a result in an iExec application. The result
@@ -82,5 +97,10 @@ if __name__ == '__main__':
     print(dataset_text)
     input_files_text = handle_input_files()
     print(input_files_text)
-    result = f'{computation_text}\n{dataset_text}\n{input_files_text}\n'
+    app_provider_secrets_text = handle_app_provider_secrets()
+    print(app_provider_secrets_text)
+    result = f'{computation_text}\n' \
+             f'{dataset_text}\n' \
+             f'{input_files_text}\n' \
+             f'{app_provider_secrets_text}\n'
     save_result(result)
