@@ -26,6 +26,7 @@ docker run \
         -e IEXEC_INPUT_FILES_FOLDER=/iexec_in \
         -e IEXEC_INPUT_FILE_NAME_1=input-file1.txt \
         -e IEXEC_INPUT_FILE_NAME_2=input-file2.txt \
+        -e IEXEC_APP_PROVIDER_SECRET_0=my4ppPr0vid3rS3cr3t0 \
         -v /tmp/iexec_out:/iexec_out \
         -v $(pwd)/resources/data:/iexec_in \
         python-hello-world Alice
