@@ -51,7 +51,8 @@ def handle_input_files():
     iexec_input_files_number = int(os.environ['IEXEC_INPUT_FILES_NUMBER'])
     text = ''
     for i in range(1, iexec_input_files_number + 1):
-        file_path = iexec_in + "/" + os.environ['IEXEC_INPUT_FILE_NAME_' + str(i)]
+        file_path = iexec_in + "/" \
+                    + os.environ['IEXEC_INPUT_FILE_NAME_' + str(i)]
         if os.path.isfile(file_path):
             with open(file_path) as f:
                 text += f'\nInput file [{i}] ({file_path}): {f.read()}'
@@ -60,25 +61,38 @@ def handle_input_files():
 
 def handle_app_provider_secrets():
     """
-    This function demonstrates how to use application-provider secrets in an
+    This function demonstrates how to use application-developer secrets in an
     iExec application.
     The following environment variables are used:
-        - IEXEC_APP_PROVIDER_SECRET_0: first secret set by the application
-        provider
+        - IEXEC_APP_DEVELOPER_SECRET_0: first secret set by the application
+        developer
     """
-    iexec_app_provider_secret_0 = os.getenv('IEXEC_APP_PROVIDER_SECRET_0', '')
-    if iexec_app_provider_secret_0 == '':
+    iexec_app_developer_secret_0 = os.getenv('IEXEC_APP_DEVELOPER_SECRET_0', '')
+    if iexec_app_developer_secret_0 == '':
         return ''
-    return f'\nApp provider secret 0: {iexec_app_provider_secret_0}'
+    return f'\nApp developer secret 0: {iexec_app_developer_secret_0}'
+
+
+def handle_requester_secrets():
+    """
+    This function demonstrates how to use requester secrets in an
+    iExec application.
+    The following environment variables are used:
+        - IEXEC_REQUESTER_SECRET_0: first secret set by the requester
+    """
+    iexec_requester_secret_0 = os.getenv('IEXEC_REQUESTER_SECRET_0', '')
+    if iexec_requester_secret_0 == '':
+        return ''
+    return f'\nRequester secret 0: {iexec_requester_secret_0}'
 
 
 def save_result(text):
     """
     This function shows how to save a result in an iExec application. The result
-    file(s) should be written in the folder indicated by the environment variable
-    IEXEC_OUT. After saving the result, the file "computed.json" must be created
-    in the same folder. It must contain, at least, the path to the determinism
-    file (deterministic-output-path).
+    file(s) should be written in the folder indicated by the environment
+    variable IEXEC_OUT. After saving the result, the file "computed.json" must
+    be created in the same folder. It must contain, at least, the path to the
+    determinism file (deterministic-output-path).
     """
     iexec_out = os.environ['IEXEC_OUT']
     result_filepath = iexec_out + '/result.txt'
@@ -97,10 +111,13 @@ if __name__ == '__main__':
     print(dataset_text)
     input_files_text = handle_input_files()
     print(input_files_text)
-    app_provider_secrets_text = handle_app_provider_secrets()
-    print(app_provider_secrets_text)
-    result = f'{computation_text}\n' \
-             f'{dataset_text}\n' \
-             f'{input_files_text}\n' \
-             f'{app_provider_secrets_text}\n'
-    save_result(result)
+    app_developer_secrets_text = handle_app_provider_secrets()
+    print(app_developer_secrets_text)
+    requester_secrets_text = handle_requester_secrets()
+    print(requester_secrets_text)
+result = f'{computation_text}\n' \
+         f'{dataset_text}\n' \
+         f'{input_files_text}\n' \
+         f'{app_developer_secrets_text}\n' \
+         f'{requester_secrets_text}\n'
+save_result(result)
