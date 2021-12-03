@@ -59,7 +59,7 @@ def handle_input_files():
     return text
 
 
-def handle_app_provider_secrets():
+def handle_app_developer_secrets():
     """
     This function demonstrates how to use application-developer secrets in an
     iExec application.
@@ -111,13 +111,13 @@ if __name__ == '__main__':
     print(dataset_text)
     input_files_text = handle_input_files()
     print(input_files_text)
-    app_developer_secrets_text = handle_app_provider_secrets()
+    app_developer_secrets_text = handle_app_developer_secrets()
     print(app_developer_secrets_text)
     requester_secrets_text = handle_requester_secrets()
     print(requester_secrets_text)
-result = f'{computation_text}\n' \
-         f'{dataset_text}\n' \
-         f'{input_files_text}\n' \
-         f'{app_developer_secrets_text}\n' \
-         f'{requester_secrets_text}\n'
-save_result(result)
+    result = f'{computation_text}\n' \
+             f'{dataset_text}\n' \
+             f'{input_files_text}\n' \
+             f'{app_developer_secrets_text}\n' \
+             f'{requester_secrets_text}\n'
+    save_result(result)
