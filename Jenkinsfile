@@ -1,4 +1,4 @@
-@Library('jenkins-library@1.0.4') _
+@Library('global-jenkins-library@1.0.6') _
 
 def tasks = [:]
 tasks["cloud"] = {

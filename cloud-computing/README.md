@@ -67,7 +67,7 @@ docker run \
         -v /tmp/iexec_out:/iexec_out \
         -v $(pwd)/resources/data:/iexec_in \
         --device /dev/isgx \
-        tee-python-hello-world Alice
+        tee-python-hello-world:debug Alice
 ```
 To get the MREnclave value of the TEE application:
 ```
