@@ -83,7 +83,7 @@ def handle_requester_secrets():
         - IEXEC_REQUESTER_SECRET_2: third secret set by the requester
     """
     iexec_requester_secrets = ''
-    for idx in rang(0, 3):
+    for idx in range(0, 3):
         iexec_requester_secret = os.getenv(f'IEXEC_REQUESTER_SECRET_{idx}', '')
         if iexec_requester_secret != '':
             iexec_requester_secrets += f'\nRequester secret {idx}: {iexec_requester_secret}'
