@@ -79,11 +79,15 @@ def handle_requester_secrets():
     iExec application.
     The following environment variables are used:
         - IEXEC_REQUESTER_SECRET_0: first secret set by the requester
+        - IEXEC_REQUESTER_SECRET_1: second secret set by the requester
+        - IEXEC_REQUESTER_SECRET_2: third secret set by the requester
     """
-    iexec_requester_secret_0 = os.getenv('IEXEC_REQUESTER_SECRET_0', '')
-    if iexec_requester_secret_0 == '':
-        return ''
-    return f'\nRequester secret 0: {iexec_requester_secret_0}'
+    iexec_requester_secrets = ''
+    for idx in rang(0, 3):
+        iexec_requester_secret = os.getenv(f'IEXEC_REQUESTER_SECRET_{idx}', '')
+        if iexec_requester_secret != '':
+            iexec_requester_secrets += f'\nRequester secret {idx}: {iexec_requester_secret}'
+    return iexec_requester_secrets
 
 
 def save_result(text):
