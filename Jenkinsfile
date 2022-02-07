@@ -1,4 +1,4 @@
-@Library('global-jenkins-library@1.0.6') _
+@Library('global-jenkins-library@feature/sconifier-5.3.10') _
 
 def tasks = [:]
 tasks["cloud"] = {
