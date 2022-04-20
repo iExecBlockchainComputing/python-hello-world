@@ -10,7 +10,6 @@ def nativeImage = buildSimpleDocker_v2(
 )
 
 sconeBuildUnlocked(
-  buildInfo:       buildInfo,
   nativeImage:     nativeImage,
   imageName:       'python-hello-world',
   imageTag:        buildInfo.imageTag,
