@@ -3,7 +3,7 @@
 buildInfo = getBuildInfo()
 
 def nativeImage = buildSimpleDocker_v2(
-  buildInfo: buildInfo
+  buildInfo: buildInfo,
   dockerfileDir: 'cloud-computing',
   dockerImageRepositoryName: 'python-hello-world',
   imageprivacy: 'private'
