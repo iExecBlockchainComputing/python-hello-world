@@ -131,6 +131,7 @@ if __name__ == '__main__':
     print(app_developer_secrets_text)
     requester_secrets_text = handle_requester_secrets()
     print(requester_secrets_text)
+    write_stderr()
     result = f'{computation_text}\n' \
              f'{dataset_text}\n' \
              f'{input_files_text}\n' \
