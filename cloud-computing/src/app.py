@@ -93,7 +93,7 @@ def handle_requester_secrets():
 def write_stderr():
     """
     This function writes some text to stderr.
-    This text will be saved after task execution and can be retrieved through
+    This text will be saved after task execution. It can be retrieved in result.zip or through
     the scheduler's dedicated endpoints `/tasks/{chainTaskId}/logs`
     or `/tasks/{chainTaskId}/replicates/{walletAddress}/logs`.
     """
