@@ -90,6 +90,18 @@ def handle_requester_secrets():
     return iexec_requester_secrets
 
 
+def write_stderr():
+    """
+    This function writes some text to stderr.
+    This text will be saved after task execution. It can be retrieved in result.zip or through
+    the scheduler's dedicated endpoints `/tasks/{chainTaskId}/logs`
+    or `/tasks/{chainTaskId}/replicates/{walletAddress}/logs`.
+    """
+    iexec_task_id = os.environ['IEXEC_TASK_ID']
+    text = f'Here is a line for stderr of task {iexec_task_id}'
+    print(text, file=sys.stderr)
+
+
 def save_result(text):
     """
     This function shows how to save a result in an iExec application. The result
@@ -119,6 +131,7 @@ if __name__ == '__main__':
     print(app_developer_secrets_text)
     requester_secrets_text = handle_requester_secrets()
     print(requester_secrets_text)
+    write_stderr()
     result = f'{computation_text}\n' \
              f'{dataset_text}\n' \
              f'{input_files_text}\n' \
