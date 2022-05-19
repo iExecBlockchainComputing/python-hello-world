@@ -9,5 +9,5 @@ echo $ARGS
 
 docker run -it --rm \
             -v /var/run/docker.sock:/var/run/docker.sock \
-            registry.scontain.com:5050/scone-production/iexec-sconify-image:5.3.9 \
+            registry.scontain.com:5050/scone-production/iexec-sconify-image:5.3.15 \
             sconify_iexec $ARGS
