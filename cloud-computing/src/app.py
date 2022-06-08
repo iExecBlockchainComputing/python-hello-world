@@ -69,7 +69,7 @@ def handle_app_developer_secrets():
     """
     iexec_app_developer_secret = os.getenv('IEXEC_APP_DEVELOPER_SECRET', '')
     iexec_app_developer_secret_1 = os.getenv('IEXEC_APP_DEVELOPER_SECRET_1', '')
-    if iexec_app_developer_secret == '' or iexec_app_developer_secret_1 == '' or iexec_app_developer_secret != app_developer_secret_1:
+    if iexec_app_developer_secret == '' or iexec_app_developer_secret_1 == '' or iexec_app_developer_secret != iexec_app_developer_secret_1:
         return ''
     return f'\nApp developer secret 1: {iexec_app_developer_secret_1}'
 
