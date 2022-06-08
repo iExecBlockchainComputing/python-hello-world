@@ -64,13 +64,14 @@ def handle_app_developer_secrets():
     This function demonstrates how to use application-developer secrets in an
     iExec application.
     The following environment variables are used:
-        - IEXEC_APP_DEVELOPER_SECRET_0: first secret set by the application
+        - IEXEC_APP_DEVELOPER_SECRET_1: first secret set by the application
         developer
     """
-    iexec_app_developer_secret_0 = os.getenv('IEXEC_APP_DEVELOPER_SECRET_0', '')
-    if iexec_app_developer_secret_0 == '':
+    iexec_app_developer_secret = os.getenv('IEXEC_APP_DEVELOPER_SECRET', '')
+    iexec_app_developer_secret_1 = os.getenv('IEXEC_APP_DEVELOPER_SECRET_1', '')
+    if iexec_app_developer_secret == '' or iexec_app_developer_secret_1 == '' or iexec_app_developer_secret != app_developer_secret_1:
         return ''
-    return f'\nApp developer secret 0: {iexec_app_developer_secret_0}'
+    return f'\nApp developer secret 1: {iexec_app_developer_secret_1}'
 
 
 def handle_requester_secrets():
@@ -78,12 +79,12 @@ def handle_requester_secrets():
     This function demonstrates how to use requester secrets in an
     iExec application.
     The following environment variables are used:
-        - IEXEC_REQUESTER_SECRET_0: first secret set by the requester
-        - IEXEC_REQUESTER_SECRET_1: second secret set by the requester
-        - IEXEC_REQUESTER_SECRET_2: third secret set by the requester
+        - IEXEC_REQUESTER_SECRET_1: first secret set by the requester
+        - IEXEC_REQUESTER_SECRET_2: second secret set by the requester
+        - IEXEC_REQUESTER_SECRET_3: third secret set by the requester
     """
     iexec_requester_secrets = ''
-    for idx in range(0, 3):
+    for idx in range(1, 4):
         iexec_requester_secret = os.getenv(f'IEXEC_REQUESTER_SECRET_{idx}', '')
         if iexec_requester_secret != '':
             iexec_requester_secrets += f'\nRequester secret {idx}: {iexec_requester_secret}'
