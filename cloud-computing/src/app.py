@@ -64,14 +64,13 @@ def handle_app_developer_secrets():
     This function demonstrates how to use application-developer secrets in an
     iExec application.
     The following environment variables are used:
-        - IEXEC_APP_DEVELOPER_SECRET_1: first secret set by the application
+        - IEXEC_APP_DEVELOPER_SECRET: first secret set by the application
         developer
     """
     iexec_app_developer_secret = os.getenv('IEXEC_APP_DEVELOPER_SECRET', '')
-    iexec_app_developer_secret_1 = os.getenv('IEXEC_APP_DEVELOPER_SECRET_1', '')
-    if iexec_app_developer_secret == '' or iexec_app_developer_secret_1 == '' or iexec_app_developer_secret != iexec_app_developer_secret_1:
+    if iexec_app_developer_secret == '':
         return ''
-    return f'\nApp developer secret 1: {iexec_app_developer_secret_1}'
+    return f'\nApp developer secret: {iexec_app_developer_secret}'
 
 
 def handle_requester_secrets():
