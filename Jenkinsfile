@@ -5,6 +5,7 @@ buildInfo = getBuildInfo()
 def nativeImage = buildSimpleDocker_v3(
   buildInfo: buildInfo,
   dockerfileDir: 'cloud-computing',
+  buildContext: 'cloud-computing',
   dockerImageRepositoryName: 'python-hello-world',
   visibility: 'docker.io'
 )
