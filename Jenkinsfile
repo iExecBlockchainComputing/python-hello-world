@@ -6,7 +6,7 @@ def nativeImage = buildSimpleDocker_v3(
   buildInfo: buildInfo,
   dockerfileDir: 'cloud-computing',
   dockerImageRepositoryName: 'python-hello-world',
-  visibility: 'idocker.io'
+  visibility: 'docker.io'
 )
 
 sconeBuildUnlocked(
