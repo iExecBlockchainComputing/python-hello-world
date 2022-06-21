@@ -1,12 +1,12 @@
-@Library('global-jenkins-library@1.9.0') _
+@Library('global-jenkins-library@2.0.0') _
 
 buildInfo = getBuildInfo()
 
-def nativeImage = buildSimpleDocker_v2(
+def nativeImage = buildSimpleDocker_v3(
   buildInfo: buildInfo,
   dockerfileDir: 'cloud-computing',
   dockerImageRepositoryName: 'python-hello-world',
-  imageprivacy: 'public'
+  visibility: 'idocker.io'
 )
 
 sconeBuildUnlocked(
