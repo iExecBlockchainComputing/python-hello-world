@@ -2,13 +2,23 @@
 
 buildInfo = getBuildInfo()
 
-def nativeImage = buildSimpleDocker_v3(
+baseDir = 'cloud-computing'
+nativeImage = buildSimpleDocker_v3(
   buildInfo: buildInfo,
-  dockerfileDir: 'cloud-computing',
-  buildContext: 'cloud-computing',
+  dockerfileDir: baseDir,
+  buildContext: baseDir,
   dockerImageRepositoryName: 'python-hello-world',
   visibility: 'docker.io'
 )
+
+buildSimpleDocker_v3(
+  buildInfo: buildInfo,
+  dockerfileDir: baseDir + '/gramine',
+  buildContext: baseDir,
+  dockerImageRepositoryName: 'tee-gramine-python-hello-world',
+  visibility: 'iex.ec'
+)
+
 
 sconeBuildUnlocked(
   nativeImage:     nativeImage,
