@@ -41,7 +41,7 @@ loader.env.LD_PRELOAD = "/graphene/attestation/libsecret_prov_attest.so"
 loader.env.SECRET_PROVISION_CONSTRUCTOR = "0"
 loader.env.SECRET_PROVISION_SET_PF_KEY = "1"
 loader.env.SECRET_PROVISION_CA_CHAIN_PATH = "/graphene/attestation/certs/test-ca-sha256.crt"
-# loader.env.SECRET_PROVISION_SERVERS = "localhost:4433"
+loader.env.SECRET_PROVISION_SERVERS = "localhost:4433"
 
 sgx.remote_attestation = 1
 sgx.trusted_files.libsecretprovattest = "file:/graphene/attestation/libsecret_prov_attest.so"
