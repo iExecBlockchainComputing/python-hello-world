@@ -15,7 +15,7 @@ Please note the `measurement` value.
 
 3. To add a session to the SPS, run the following after having filled both env var:
 ```shell
-SESSION_ID=<defined your custom session id>
+SESSION_ID=<define your custom session id>
 MEASUREMENT=<set previous retrieved measurement>
 
 curl --location --request POST 'localhost:8080/api/session/' \
@@ -29,8 +29,8 @@ curl --location --request POST 'localhost:8080/api/session/' \
       "mrenclave": "'${MEASUREMENT}'",
       "command": "/apploader.sh",
       "environment": {
-        "IEXEC_IN": "/workplace/iexec_in",
-        "IEXEC_OUT": "/workplace/iexec_out",
+        "IEXEC_IN": "/iexec_in",
+        "IEXEC_OUT": "/iexec_out",
         "IEXEC_DATASET_FILENAME": "file.txt",
         "IEXEC_INPUT_FILES_NUMBER": "1",
         "IEXEC_INPUT_FILE_NAME_1": "file.txt",
@@ -51,7 +51,7 @@ curl --location --request POST 'localhost:8080/api/session/' \
 
 4. Run the app:
 ```shell
-docker run --device=/dev/sgx/enclave -v /iexec_in:/workplace/iexec_in -v /iexec_out:/workplace/iexec_out -v /var/run/aesmd/aesm.socket:/var/run/aesmd/aesm.socket -v $PWD/encryptedData:/workplace/encryptedData --net=host -e session=${SESSION_ID} -e sps=localhost:4433  tee-gramine-python-hello-world:latest
+docker run --device=/dev/sgx/enclave -v /iexec_in:/iexec_in -v /iexec_out:/iexec_out -v /var/run/aesmd/aesm.socket:/var/run/aesmd/aesm.socket -v $PWD/encryptedData:/workplace/encryptedData --net=host -e session=${SESSION_ID} -e sps=localhost:4433  tee-gramine-python-hello-world:latest
 ```
 
 
