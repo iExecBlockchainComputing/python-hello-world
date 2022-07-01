@@ -39,7 +39,11 @@ curl --location --request POST 'localhost:8080/api/session/' \
         "IEXEC_REQUESTER_SECRET_1": "Requester secret 1",
         "IEXEC_REQUESTER_SECRET_2": "Requester secret 2",
         "IEXEC_REQUESTER_SECRET_3": "Requester secret 3"
-      }
+      },
+      "volumes": [
+        "/iexec_in",
+        "/iexec_out"
+      ]
     }
   ]
 }'
