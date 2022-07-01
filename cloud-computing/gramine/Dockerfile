@@ -1,4 +1,4 @@
-FROM docker.io/iexechub/iexec-graphene-base:0.2.0
+FROM docker.io/iexechub/iexec-graphene-base:243933e-dev
 
 RUN  apt-get install -y python3
 
