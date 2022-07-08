@@ -3,7 +3,8 @@ FROM docker.io/iexechub/iexec-graphene-base:f810d8c-dev
 RUN  apt-get install -y python3
 
 ### install needed python3 dependencies
-RUN pip3 install pyfiglet
+RUN apk add gcc musl-dev
+RUN pip3 install pyfiglet eth_abi
 
 ARG SOURCE_DIR=src
 ARG GRAMINE_DIR=gramine
