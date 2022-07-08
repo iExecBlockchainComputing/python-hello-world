@@ -56,6 +56,7 @@ sgx.allowed_files.resolv = "file:/etc/resolv.conf"
 sgx.protected_files.encrypteddata = "file:/workplace/encryptedData"
 sgx.allowed_files.conf = "file:/workplace/conf/config.json"
 sgx.allowed_files.inputfile = "file:/iexec_in/file.txt"
+sgx.protected_files.iexecout = "file:/iexec_out"
 
 loader.log_level =  "debug"
 #************for premain*********************
