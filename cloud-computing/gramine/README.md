@@ -2,7 +2,7 @@
 
 1. Start a SPS container:
 ```shell
-docker run -d -v /opt/multiple/sessions:/graphene/workplace/sessions -p 8080:8080 -p 4433:4433 -e SPS_USERNAME=admin -e SPS_PASSWORD=admin --name iexec-sps iexechub/iexec-sps:bf3bb00-dev
+docker run -d -v /opt/multiple/sessions:/graphene/workplace/sessions -v /opt/secret-prov/certs/:/graphene/workplace/certs -p 8080:8080 -p 4433:4433 -e SPS_USERNAME=admin -e SPS_PASSWORD=admin --name iexec-sps iexechub/iexec-sps:bf3bb00-dev
 ```
 
 
@@ -49,13 +49,28 @@ curl --location --request POST 'localhost:8080/api/session/' \
 }'
 ```
 
+
 4. Run the app:
 ```shell
-docker run --device=/dev/sgx/enclave -v /iexec_in:/iexec_in -v /iexec_out:/iexec_out -v /var/run/aesmd/aesm.socket:/var/run/aesmd/aesm.socket -v $PWD/encryptedData:/workplace/encryptedData --net=host -e session=${SESSION_ID} -e sps=localhost:4433  tee-gramine-python-hello-world:latest
+docker run --device=/dev/sgx/enclave -v /iexec_in:/iexec_in -v /iexec_out:/iexec_out -v /var/run/aesmd/aesm.socket:/var/run/aesmd/aesm.socket -v $PWD/encryptedData:/workplace/encryptedData -v /opt/secret-prov/certs/:/graphene/attestation/certs/ --net=host -e session=${SESSION_ID} -e sps=localhost:4433  tee-gramine-python-hello-world:latest
 ```
 
 
 ### Troubleshooting:
+
+#### "Get keys failed"
+When the app can't communicate with the SPS, you can encounter some numeric error codes, in the following format:
+```
+[error] connect to kms failed, kms_endpoint is iexec-sps:4433, cert_path is /graphene/attestation/certs/test-ca-sha256.crt
+[error] get keys failed, return -[ERROR_CODE] 
+```
+
+Depending on the error code, the issue is the following:
+
+| Error code |       Error       |                                                         Solution                                                          |
+|:----------:|:-----------------:|:-------------------------------------------------------------------------------------------------------------------------:|
+|    111     |  Can't reach SPS  |                                       Check SPS IP is correct in app configuration.                                       |
+|    9984    | Certificate error | Check both app & SPS share a valid certificate. Regenerate it if needed, providing SPS IP as `Common Name` when prompted. |
 
 
 #### Dataset and input files are not correctly read
