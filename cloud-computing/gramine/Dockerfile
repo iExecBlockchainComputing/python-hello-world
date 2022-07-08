@@ -1,6 +1,6 @@
 FROM docker.io/iexechub/iexec-graphene-base:f810d8c-dev
 
-RUN  apt-get install -y python3
+RUN  apt-get install -y python3 apk
 
 ### install needed python3 dependencies
 RUN apk add gcc musl-dev
