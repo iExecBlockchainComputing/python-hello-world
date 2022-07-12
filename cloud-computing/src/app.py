@@ -1,7 +1,6 @@
 import json
 import os
 import sys
-import eth_abi
 
 from pyfiglet import Figlet
 
@@ -104,48 +103,20 @@ def write_stderr():
 
 def save_result(text):
     """
-    This function shows how to save a result in an iExec application.
-    Depending on whether the result should be saved in a callback or not,
-    the file "computed.json" must contain the callback data or the path
-    to the determinism file.
-    """
-    iexec_out = os.environ['IEXEC_OUT']
-    should_callback = os.getenv('IEXEC_SHOULD_CALLBACK', 'False').lower() == 'true'
-
-    computed_file_content = ''
-    if should_callback:
-        computed_file_content = save_result_callback(text)
-    else:
-        computed_file_content = save_result_no_callback(text, iexec_out)
-
-    print(computed_file_content)
-    with open(iexec_out + '/computed.json', 'w+') as f:
-        json.dump(computed_file_content, f)
-
-
-def save_result_no_callback(text, iexec_out):
-    """
-    The result file(s) should be written in the folder indicated by the environment
+    This function shows how to save a result in an iExec application. The result
+    file(s) should be written in the folder indicated by the environment
     variable IEXEC_OUT. After saving the result, the file "computed.json" must
     be created in the same folder. It must contain, at least, the path to the
     determinism file (deterministic-output-path).
     """
+    iexec_out = os.environ['IEXEC_OUT']
     result_filepath = iexec_out + '/result.txt'
     with open(result_filepath, 'w+') as f:
         f.write(text)
-    return {"deterministic-output-path": result_filepath}
-
-
-def save_result_callback(text):
-    """
-    The file "computed.json" must be created in the folder indicated
-    by the environment variable IEXEC_OUT. It must contain, at least,
-    the callback data (callback-data).
-    """
-    callback_data = eth_abi.encode_abi(['string'], [text]).hex()
-    print('Callback is ready [data:{}, callback-data:{}]'.format(text, callback_data))
-    # prepare callback to be sent to the smart-contract
-    return {"callback-data": callback_data}
+    computed_file_content = {"deterministic-output-path": result_filepath}
+    print(computed_file_content)
+    with open(iexec_out + '/computed.json', 'w+') as f:
+        json.dump(computed_file_content, f)
 
 
 if __name__ == '__main__':
