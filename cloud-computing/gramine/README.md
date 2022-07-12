@@ -1,8 +1,8 @@
-## How to run demo with Gramine
+## How to run demo with Gramine on localhost
 
 1. Start a SPS container:
 ```shell
-docker run -d -v /opt/multiple/sessions:/graphene/workplace/sessions -v /opt/secret-prov/certs/:/graphene/workplace/certs -p 8080:8080 -p 4433:4433 -e SPS_USERNAME=admin -e SPS_PASSWORD=admin --name iexec-sps iexechub/iexec-sps:bf3bb00-dev
+docker run -d -v /opt/multiple/sessions:/graphene/workplace/sessions -v /opt/secret-prov/certs/:/graphene/workplace/certs -p 8080:8080 -p 4433:4433 -e SPS_USERNAME=admin -e SPS_PASSWORD=admin --name iexec-sps iexechub/iexec-sps:0.4.0
 ```
 
 
