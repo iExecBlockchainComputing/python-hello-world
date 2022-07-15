@@ -1,13 +1,24 @@
-@Library('global-jenkins-library@1.9.0') _
+@Library('global-jenkins-library@2.1.0') _
 
 buildInfo = getBuildInfo()
 
-def nativeImage = buildSimpleDocker_v2(
+baseDir = 'cloud-computing'
+nativeImage = buildSimpleDocker_v3(
   buildInfo: buildInfo,
-  dockerfileDir: 'cloud-computing',
+  dockerfileDir: baseDir,
+  buildContext: baseDir,
   dockerImageRepositoryName: 'python-hello-world',
-  imageprivacy: 'public'
+  visibility: 'docker.io'
 )
+
+buildSimpleDocker_v3(
+  buildInfo: buildInfo,
+  dockerfileDir: baseDir + '/gramine',
+  buildContext: baseDir,
+  dockerImageRepositoryName: 'tee-gramine-python-hello-world',
+  visibility: 'iex.ec'
+)
+
 
 sconeBuildUnlocked(
   nativeImage:     nativeImage,
