@@ -59,7 +59,7 @@ curl --location --request POST 'localhost:8080/api/session/' \
 ```shell
 docker run \
   --device=/dev/sgx/enclave \
-  -v /iexec_in:/iexec_in -v /iexec_out:/iexec_out \
+  -v /iexec_in:/iexec_in -v /tmp/iexec_out:/iexec_out \
   -v /var/run/aesmd/aesm.socket:/var/run/aesmd/aesm.socket \
   -v $PWD/encryptedData:/workplace/encryptedData \
   -v /opt/secret-prov/certs/:/graphene/attestation/certs/ \
