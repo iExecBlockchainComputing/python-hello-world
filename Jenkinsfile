@@ -14,4 +14,5 @@ sconeBuildUnlocked(
   imageName:       'python-hello-world',
   imageTag:        buildInfo.imageTag,
   sconifyArgsPath: 'cloud-computing/sconify.args',
+  sconifyVersion:  '5.7.1'
 )
