@@ -1,5 +1,5 @@
 # FIXME: use tagged version when released
-FROM docker-regis.iex.ec/iexec-graphene-base:65e798a4
+FROM docker-regis.iex.ec/iexec-graphene-base:39d059c
 
 RUN  apt-get install -y python3
 
