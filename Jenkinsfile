@@ -1,4 +1,4 @@
-@Library('global-jenkins-library@2.1.0') _
+@Library('global-jenkins-library@2.1.1') _
 
 buildInfo = getBuildInfo()
 
@@ -25,4 +25,5 @@ sconeBuildUnlocked(
   imageName:       'python-hello-world',
   imageTag:        buildInfo.imageTag,
   sconifyArgsPath: 'cloud-computing/sconify.args',
+  sconifyVersion:  '5.7.1'
 )
