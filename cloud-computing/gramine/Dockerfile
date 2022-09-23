@@ -1,10 +1,8 @@
 # FIXME: use tagged version when released
 FROM docker-regis.iex.ec/iexec-graphene-base:27d9321a
 
-RUN  apt-get install -y python3
-
-### install needed python3 dependencies
-RUN pip3 install pyfiglet
+RUN  apt-get install -y python3 \
+     && pip3 install pyfiglet
 
 ARG SOURCE_DIR=src
 ARG GRAMINE_DIR=gramine
