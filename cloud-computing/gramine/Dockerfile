@@ -1,5 +1,5 @@
 # FIXME: use tagged version when released
-FROM docker-regis.iex.ec/iexec-graphene-base:94c0eea0
+FROM docker-regis.iex.ec/iexec-graphene-base:5f5b72f1
 
 RUN  apt-get install -y python3 \
      && pip3 install pyfiglet
