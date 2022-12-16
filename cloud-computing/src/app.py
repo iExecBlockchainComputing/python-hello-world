@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+import time
 
 from pyfiglet import Figlet
 
@@ -11,10 +12,13 @@ def do_some_computation():
     arguments (if provided) are accessible via "sys.argv" array. In this case,
     if the first argument is present, it is used in the greeting message.
     """
-    name = sys.argv[1] if len(sys.argv) > 1 else "World"
-    greeting = f'Hello, {name}!'
+    sleepTime = sys.argv[1] if len(sys.argv) > 1 else "60"
+    greeting = f'Hello, {sleepTime}!'
     # Let's add some art for e.g.
     art = Figlet().renderText(greeting)
+    computation_text = art + greeting
+    print(computation_text)
+    time.sleep(int(sleepTime))
     return art + greeting
 
 
@@ -121,7 +125,6 @@ def save_result(text):
 
 if __name__ == '__main__':
     computation_text = do_some_computation()
-    print(computation_text)
     dataset_text = handle_dataset()
     print(dataset_text)
     input_files_text = handle_input_files()
