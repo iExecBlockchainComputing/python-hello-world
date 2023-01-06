@@ -11,28 +11,31 @@ nativeImage = buildSimpleDocker_v3(
   visibility: 'docker.io'
 )
 
-stage('Build Gramine images') {
+stage('Build Gramine') {
     dockerfileDir = baseDir + '/gramine'
     dockerImageRepositoryName = 'tee-gramine-python-hello-world'
     visibility = 'iex.ec'
-    // Production image
-    productionImageName = buildSimpleDocker_v3(
-        buildInfo: buildInfo,
-        dockerfileDir: dockerfileDir,
-        buildContext: baseDir,
-        dockerImageRepositoryName: dockerImageRepositoryName,
-        visibility: visibility
-    )
-    // Test CA image
-    buildInfo.imageTag = buildInfo.imageTag + '-test-ca'
-    buildSimpleDocker_v3(
-        buildInfo: buildInfo,
-        dockerfileDir: dockerfileDir,
-        dockerfileFilename: 'Dockerfile.test-ca',
-        dockerBuildOptions: '--build-arg BASE_IMAGE=' + productionImageName,
-        dockerImageRepositoryName: dockerImageRepositoryName,
-        visibility: visibility
-    )
+    productionImageName = ''
+    stage('Build Gramine production image') {
+        productionImageName = buildSimpleDocker_v3(
+            buildInfo: buildInfo,
+            dockerfileDir: dockerfileDir,
+            buildContext: baseDir,
+            dockerImageRepositoryName: dockerImageRepositoryName,
+            visibility: visibility
+        )
+    }
+    stage('Build Gramine test CA Gramine image') {
+        buildInfo.imageTag = buildInfo.imageTag + '-test-ca'
+        buildSimpleDocker_v3(
+            buildInfo: buildInfo,
+            dockerfileDir: dockerfileDir,
+            dockerfileFilename: 'Dockerfile.test-ca',
+            dockerBuildOptions: '--build-arg BASE_IMAGE=' + productionImageName,
+            dockerImageRepositoryName: dockerImageRepositoryName,
+            visibility: visibility
+        )
+    }
 }
 
 sconeBuildUnlocked(
