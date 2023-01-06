@@ -1,9 +1,5 @@
 ARG BASE_IMAGE
 FROM $BASE_IMAGE
-
-# Copy the manifest to use from within the base image
-# or create your own
-RUN rm -r /entrypoint.manifest && \
-    cp /common-manifests/python.entrypoint.manifest /entrypoint.manifest
-
-RUN /finalize-app-test.sh
+ENV CA=test
+RUN rm -r /entrypoint.manifest.sgx
+RUN /finalize-app.sh
