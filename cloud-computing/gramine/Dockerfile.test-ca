@@ -4,6 +4,6 @@ FROM $BASE_IMAGE
 # Copy the manifest to use from within the base image
 # or create your own
 RUN rm -r /entrypoint.manifest && \
-    mv /common-manifests/python.entrypoint.manifest /entrypoint.manifest
+    cp /common-manifests/python.entrypoint.manifest /entrypoint.manifest
 
 RUN /finalize-app-test.sh
