@@ -1,4 +1,4 @@
-@Library('global-jenkins-library@feature/docker-build-options') _
+@Library('global-jenkins-library@2.3.0') _
 
 buildInfo = getBuildInfo()
 
