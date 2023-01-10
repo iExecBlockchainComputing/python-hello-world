@@ -12,13 +12,14 @@ nativeImage = buildSimpleDocker_v3(
 )
 
 stage('Build Gramine') {
+    gramineBuildInfo = buildInfo.clone()
     dockerfileDir = baseDir + '/gramine'
     dockerImageRepositoryName = 'tee-gramine-python-hello-world'
     visibility = 'iex.ec'
     productionImageName = ''
     stage('Build Gramine production image') {
         productionImageName = buildSimpleDocker_v3(
-            buildInfo: buildInfo,
+            buildInfo: gramineBuildInfo,
             dockerfileDir: dockerfileDir,
             buildContext: baseDir,
             dockerImageRepositoryName: dockerImageRepositoryName,
@@ -26,9 +27,9 @@ stage('Build Gramine') {
         )
     }
     stage('Build Gramine test CA Gramine image') {
-        buildInfo.imageTag = buildInfo.imageTag + '-test-ca'
+        gramineBuildInfo.imageTag += '-test-ca'
         buildSimpleDocker_v3(
-            buildInfo: buildInfo,
+            buildInfo: gramineBuildInfo,
             dockerfileDir: dockerfileDir,
             dockerfileFilename: 'Dockerfile.test-ca',
             dockerBuildOptions: '--build-arg BASE_IMAGE=' + productionImageName,
