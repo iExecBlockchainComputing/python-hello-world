@@ -1,0 +1,5 @@
+ARG BASE_IMAGE
+FROM $BASE_IMAGE
+ENV CA=test
+RUN cp /common-manifests/python.entrypoint.manifest /entrypoint.manifest
+RUN /finalize-app.sh

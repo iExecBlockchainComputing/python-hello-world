@@ -1,4 +1,4 @@
-@Library('global-jenkins-library@2.1.1') _
+@Library('global-jenkins-library@2.3.0') _
 
 buildInfo = getBuildInfo()
 
@@ -11,14 +11,35 @@ nativeImage = buildSimpleDocker_v3(
   visibility: 'docker.io'
 )
 
-buildSimpleDocker_v3(
-  buildInfo: buildInfo,
-  dockerfileDir: baseDir + '/gramine',
-  buildContext: baseDir,
-  dockerImageRepositoryName: 'tee-gramine-python-hello-world',
-  visibility: 'iex.ec'
-)
-
+stage('Build Gramine') {
+    gramineBuildInfo = buildInfo.clone()
+    dockerfileDir = baseDir + '/gramine'
+    dockerImageRepositoryName = 'tee-python-hello-world'
+    gramineBuildInfo.imageTag += '-gramine'
+    visibility = 'iex.ec'
+    productionImageName = ''
+    stage('Build Gramine production image') {
+        productionImageName = buildSimpleDocker_v3(
+            buildInfo: gramineBuildInfo,
+            dockerfileDir: dockerfileDir,
+            buildContext: baseDir,
+            dockerImageRepositoryName: dockerImageRepositoryName,
+            visibility: visibility
+        )
+    }
+    stage('Build Gramine test CA Gramine image') {
+        testCaSuffix = 'test-ca'
+        gramineBuildInfo.imageTag += '-' + testCaSuffix
+        buildSimpleDocker_v3(
+            buildInfo: gramineBuildInfo,
+            dockerfileDir: dockerfileDir,
+            dockerfileFilename: 'Dockerfile.' + testCaSuffix,
+            dockerBuildOptions: '--build-arg BASE_IMAGE=' + productionImageName,
+            dockerImageRepositoryName: dockerImageRepositoryName,
+            visibility: visibility
+        )
+    }
+}
 
 sconeBuildUnlocked(
   nativeImage:     nativeImage,
