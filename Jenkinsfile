@@ -12,7 +12,7 @@ properties(
     ]
 )
 
-if (params.SCONIFY_VERSION == null || params.SCONIFY_VERSION = '') {
+if (params.SCONIFY_VERSION == null || params.SCONIFY_VERSION == '') {
     error "SCONIFY_VERSION can't be null or empty"
 }
 
