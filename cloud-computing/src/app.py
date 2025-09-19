@@ -28,12 +28,14 @@ def handle_dataset():
         - IEXEC_DATASET_FILENAME: the name of the dataset file.
     """
     iexec_in = os.environ['IEXEC_IN']
-    dataset_filename = os.environ['IEXEC_DATASET_FILENAME']
-    dataset_filepath = iexec_in + '/' + dataset_filename
-    text = f'\nDataset ({dataset_filepath}): '
-    if os.path.isfile(dataset_filepath):
-        with open(dataset_filepath) as f:
-            text = text + f.read()
+    text = ''
+    for dataset_filename in os.environ['IEXEC_DATASET_FILENAME'].split('-'):
+        dataset_filepath = iexec_in + '/' + dataset_filename
+        text += f'\nDataset ({dataset_filepath}): '
+        if os.path.isfile(dataset_filepath):
+            with open(dataset_filepath) as f:
+                text += f.read()
+    print(text)
     return text
 
 
@@ -123,7 +125,6 @@ if __name__ == '__main__':
     computation_text = do_some_computation()
     print(computation_text)
     dataset_text = handle_dataset()
-    print(dataset_text)
     input_files_text = handle_input_files()
     print(input_files_text)
     app_developer_secrets_text = handle_app_developer_secrets()
