@@ -11,7 +11,7 @@ properties(
     ]
 )
 
-if (params.SCONIFY_VERSION.isBlank()) {
+if (params.SCONIFY_VERSION.isEmpty()) {
     error "SCONIFY_VERSION can't be null or empty"
 }
 
