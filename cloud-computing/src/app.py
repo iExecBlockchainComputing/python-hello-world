@@ -17,6 +17,18 @@ def do_some_computation():
     art = Figlet().renderText(greeting)
     return art + greeting
 
+def do_bulk_processing():
+    iexec_in = os.environ['IEXEC_IN']
+    bulk_size = os.environ['BULK_SIZE']
+    text = ''
+    for i in range(int(bulk_size)):
+       bulk_dataset_filename = os.environ['BULK_DATASET_' + str(i + 1) + '_FILENAME']
+       bulk_dataset_filepath = f'{iexec_in}/{bulk_dataset_filename}'
+       text += f'\nDataset ({bulk_dataset_filepath}): '
+       if os.path.isfile(bulk_dataset_filepath):
+          with open(bulk_dataset_filepath) as f:
+              text += f.read()
+    return text
 
 def handle_dataset():
     """
@@ -33,7 +45,7 @@ def handle_dataset():
     text = f'\nDataset ({dataset_filepath}): '
     if os.path.isfile(dataset_filepath):
         with open(dataset_filepath) as f:
-            text = text + f.read()
+            text += f.read()
     return text
 
 
@@ -120,8 +132,13 @@ def save_result(text):
 
 
 if __name__ == '__main__':
+    result = ''
     computation_text = do_some_computation()
     print(computation_text)
+    result += computation_text
+    if 'BULK_SIZE' in os.environ:
+        bulk_dataset_text = do_bulk_processing()
+        result += bulk_dataset_text
     dataset_text = handle_dataset()
     print(dataset_text)
     input_files_text = handle_input_files()
@@ -131,8 +148,7 @@ if __name__ == '__main__':
     requester_secrets_text = handle_requester_secrets()
     print(requester_secrets_text)
     write_stderr()
-    result = f'{computation_text}\n' \
-             f'{dataset_text}\n' \
+    result += f'{dataset_text}\n' \
              f'{input_files_text}\n' \
              f'{app_developer_secrets_text}\n' \
              f'{requester_secrets_text}\n'
