@@ -109,10 +109,10 @@ jobs:
           echo
           docker run --rm -e SCONE_HASH=1 $IMG_TO
       - name: Push TEE image
-        run: docker push $enclave_image:${{ needs.prepare.outputs.image_tag }}-sconify-$sconify_image-debug
+        run: docker push $enclave_image:${{ needs.prepare.outputs.image_tag }}-sconify-$sconify_version-debug
       - name: Clean OCI images
         run: |
           docker image rm -f \
             $native_image:${{ needs.prepare.outputs.image_tag }} \
-            $enclaveimage:${{ needs.prepare.outputs.image_tag }}-sconify-$sconify_image-debug \
+            $enclave_image:${{ needs.prepare.outputs.image_tag }}-sconify-$sconify_version-debug \
             $sconify_image:$sconify_version
