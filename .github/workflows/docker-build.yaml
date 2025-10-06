@@ -6,11 +6,15 @@ on:
     branches: [main]
     tags:
       - 'v*.*.*'
+  # can only be executed by people with write access on repository
+  workflow_dispatch:
 
 jobs:
   prepare:
     name: Determine image tag
     runs-on: ubuntu-latest
+    # Prevent execution on forks
+    if: github.repository_owner == 'iExecBlockchainComputing'
     outputs:
       image_tag: ${{ steps.determine-tag.outputs.image_tag }}
     steps:
