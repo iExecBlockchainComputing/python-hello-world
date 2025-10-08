@@ -1,0 +1,89 @@
+name: Sconify and push TEE image
+
+on:
+  workflow_dispatch:
+    inputs:
+      sconify_version:
+        default: 5.9.1-v16
+        required: true
+
+jobs:
+  prepare:
+    name: Determine image tag
+    if: github.repository_owner == 'iExecBlockchainComputing'
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.determine-tag.outputs.image_tag }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine base tag
+        id: determine-tag
+        run: |
+          if [ "${{ github.ref_type }}" != "tag" ]; then
+            echo "Error: This workflow must be run on a tag"
+            echo "Current ref type: ${{ github.ref_type }}"
+            echo "Current ref: ${{ github.ref }}"
+            exit 1
+          fi
+
+          TAG_ON_MAIN=$(git branch -r --contains ${{ github.sha }} 'origin/main')
+
+          if [ -z "$TAG_ON_MAIN" ] ; then
+            echo "Error: Tag ${{ github.ref_name }} is not on main branch"
+            echo "Tags must be created on main branch to generate X.Y.Z image tags"
+            exit 1
+          fi
+
+          GITHUB_REF_NAME="${{ github.ref_name }}"
+          echo "Processing tag on main branch: ${{ github.ref_name }}"
+          echo "image_tag=${GITHUB_REF_NAME#v}" | tee -a $GITHUB_OUTPUT
+
+  build-tee-image:
+    name: Sconify TEE image
+    needs: prepare
+    runs-on: ubuntu-latest
+    env:
+      IMG_FROM: docker-regis.iex.ec/python-hello-world:${{ needs.prepare.outputs.image_tag }}
+      IMG_TO: docker-regis.iex.ec/python-hello-world:${{ needs.prepare.outputs.image_tag }}-sconify-${{ inputs.sconify_version }}-production
+      SCONIFY_IMAGE: registry.scontain.com/scone-production/iexec-sconify-image:${{ inputs.sconify_version }}
+    steps:
+      - name: Login to Scontain registry
+        uses: docker/login-action@v3
+        with:
+          registry: registry.scontain.com
+          username: ${{ secrets.SCONTAIN_REGISTRY_USERNAME }}
+          password: ${{ secrets.SCONTAIN_REGISTRY_PAT }}
+      - name: Login to Docker regis
+        uses: docker/login-action@v3
+        with:
+          registry: docker-regis.iex.ec
+          username: ${{ secrets.NEXUS_USERNAME }}
+          password: ${{ secrets.NEXUS_PASSWORD }}
+      - name: Pull sconification tools
+        run: docker pull ${{ env.SCONIFY_IMAGE }}
+      - name: Pull native image
+        run: docker pull ${{ env.IMG_FROM }}
+      - name: Sconify
+        run: |
+          TEMP_KEY=$(mktemp)
+          echo "${{ secrets.SCONIFY_SIGNING_PRIVATE_KEY }}" > "$TEMP_KEY"
+          chmod 600 "$TEMP_KEY"
+          trap "rm -f $TEMP_KEY" EXIT
+
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$TEMP_KEY:/sig.pem:ro" ${{ env.SCONIFY_IMAGE }} \
+            sconify_iexec --cli=${{ env.SCONIFY_IMAGE }} --crosscompiler=${{ env.SCONIFY_IMAGE }} \
+              --from=${{ env.IMG_FROM }} --to=${{ env.IMG_TO }} --binary-fs --fs-dir=/app --binary=/usr/local/bin/python3.7 \
+              --heap=1G --host-path=/etc/hosts --host-path=/etc/resolv.conf --no-color --verbose \
+              --scone-signer=/sig.pem
+          echo
+          docker run --rm -e SCONE_HASH=1 ${{ env.IMG_TO }}
+      - name: Push TEE image
+        run: docker push ${{ env.IMG_TO }}
+      - name: Clean OCI images
+        if: always()
+        run: docker image rm -f ${{ env.IMG_FROM }} ${{ env.IMG_TO }} ${{ env.SCONIFY_IMAGE }}
+
