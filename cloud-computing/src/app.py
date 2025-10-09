@@ -28,6 +28,7 @@ def do_bulk_processing():
        if os.path.isfile(iexec_dataset_filepath):
           with open(iexec_dataset_filepath) as f:
               text += f.read()
+    print(text)
     return text
 
 def handle_dataset():
@@ -136,7 +137,7 @@ if __name__ == '__main__':
     computation_text = do_some_computation()
     print(computation_text)
     result += computation_text
-    if 'BULK_SIZE' in os.environ:
+    if 'IEXEC_BULK_SLICE_SIZE' in os.environ:
         bulk_dataset_text = do_bulk_processing()
         result += bulk_dataset_text
     dataset_text = handle_dataset()
